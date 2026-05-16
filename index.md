@@ -6,8 +6,9 @@ nav_order: 1
 
 # SOC Journey
 
-Cybercrime & IT Security graduate documenting my path into blue team security.
-Hands-on background in digital forensics, malware analysis, reverse engineering, and enterprise networking.
+Cybercrime & IT Security graduate documenting practical progression into SOC operations and blue team security.
+
+Background in digital forensics, malware analysis, reverse engineering, and enterprise networking.
 
 ---
 
@@ -15,17 +16,41 @@ Hands-on background in digital forensics, malware analysis, reverse engineering,
 
 | Section | Description |
 |---------|-------------|
-| [Notes](notes/) | Concepts, cheatsheets, and tool references |
-| [Investigations](investigations/) | SOC-style writeups from LetsDefend and lab work |
-| [Home Lab](lab/) | My SOC lab setup and detection use cases |
+| [Notes](notes/) | Concepts, detection theory, cheatsheets, and tool references |
+| [Investigations](investigations/) | SOC-style investigations and incident analysis |
+| [Home Lab](lab/) | Detection engineering, logging, and SOC lab development |
 
 ---
 
 ## Background
 
-- **Degree:** Cybercrime & IT Security
-- **Tools:** Ghidra · Binary Ninja · IDA · FLARE VM · Autopsy · Volatility · FTK · Metasploit · Burp Suite · Wireshark
-- **Networking:** OSPF · VLANs · TACACS · ACLs · Spanning Tree
+### Analysis
+Ghidra · Binary Ninja · IDA · FLARE VM
+
+### Forensics
+Autopsy · Volatility · FTK
+
+### Security
+Burp Suite · Metasploit · Wireshark
+
+### Networking
+OSPF · VLANs · TACACS · ACLs · Spanning Tree
+
+---
+
+## Current Focus
+
+- Hack The Box CDSA
+- SIEM and log analysis
+- Detection engineering fundamentals
+- Incident response workflows
+- SOC investigation methodology
+
+---
+
+## Recent Notes
+
+- [Cyber Kill Chain](notes/kill-chain)
 
 ---
 
@@ -33,11 +58,11 @@ Hands-on background in digital forensics, malware analysis, reverse engineering,
 
 | Phase | Focus | Status |
 |-------|-------|--------|
-| 1 | Google Cybersecurity Certificate + TryHackMe SOC Level 1 | In progress |
+| 1 | Google Cybersecurity Certificate + TryHackMe SOC Level 1 | In Progress |
 | 2 | CompTIA Security+ | Planned |
-| 3 | Home SOC Lab + LetsDefend investigations | Planned |
+| 3 | Home SOC Lab development + LetsDefend investigations | Planned |
 | 4 | BTL1 | Planned |
 
 ---
 
-*Started May 2026 — updated regularly.*
+*Started May 2026.*
