@@ -6,37 +6,38 @@ nav_order: 1
 
 # SOC Journey
 
-Welcome to this cybersecurity learning space focused on SOC analysis, investigations, and blue team skills.
+Cybercrime & IT Security graduate documenting my path into blue team security.
+Hands-on background in digital forensics, malware analysis, reverse engineering, and enterprise networking.
 
 ---
 
-## Core Areas
+## What's Here
 
-- Threat Detection and SIEM
-- Incident Response
-- Malware Analysis
-- Log Investigation
-- Networking and Protocols
-
----
-
-## Notes
-
-- Splunk and ELK queries
-- Detection rules
-- Incident writeups
-- Lab walkthroughs
+| Section | Description |
+|---------|-------------|
+| [Notes](notes/) | Concepts, cheatsheets, and tool references |
+| [Investigations](investigations/) | SOC-style writeups from LetsDefend and lab work |
+| [Home Lab](lab/) | My SOC lab setup and detection use cases |
 
 ---
 
-## Current Focus
+## Background
 
-Building practical skills in security monitoring and incident investigation.
+- **Degree:** Cybercrime & IT Security
+- **Tools:** Ghidra · Binary Ninja · IDA · FLARE VM · Autopsy · Volatility · FTK · Metasploit · Burp Suite · Wireshark
+- **Networking:** OSPF · VLANs · TACACS · ACLs · Spanning Tree
 
 ---
 
-## Quick Links
+## Roadmap
 
-- [Notes](notes/)
-- [Labs](labs/)
-- [Writeups](writeups/)
+| Phase | Focus | Status |
+|-------|-------|--------|
+| 1 | Google Cybersecurity Certificate + TryHackMe SOC Level 1 | In progress |
+| 2 | CompTIA Security+ | Planned |
+| 3 | Home SOC Lab + LetsDefend investigations | Planned |
+| 4 | BTL1 | Planned |
+
+---
+
+*Started May 2026 — updated regularly.*
