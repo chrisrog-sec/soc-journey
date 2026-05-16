@@ -1,4 +1,4 @@
-# SOC Journey — chrisrog-sec
+# SOC Journey
 
 > Cybercrime & IT Security graduate documenting my transition into a SOC Analyst role.
 
