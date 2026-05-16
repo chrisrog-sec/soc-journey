@@ -1,7 +1,6 @@
 title: SOC Journey
 description: Cybercrime & IT Security graduate — SOC notes and investigations
-
 theme: just-the-docs
-
-url: https://chrisrog-sec.github.io
+url: https://chrisrog-sec.github.io/soc-journey
 baseurl: /soc-journey
+color_scheme: dark
