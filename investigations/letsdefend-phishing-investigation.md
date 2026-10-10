@@ -1,4 +1,5 @@
 ---
+layout: default
 title: LetsDefend Phishing Investigation
 parent: Investigations
 nav_order: 2
