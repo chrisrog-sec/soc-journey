@@ -28,10 +28,17 @@ I hold a degree in Cybercrime & IT Security covering digital forensics, penetrat
 
 | Stage | Focus | Status |
 |-------|-------|--------|
-| Phase 1 | Google Cybersecurity Certificate + TryHackMe SOC Level 1 | In progress |
+| Phase 1 | TryHackMe SOC Level 1 (SAL1) | Completed |
 | Phase 2 | CompTIA Security+ | Planned |
-| Phase 3 | Home SOC Lab + LetsDefend investigations | Planned |
-| Phase 4 | BTL1 Certification | Planned |
+| Phase 3 | LetsDefend SOC Investigations | Planned |
+| Phase 4 | Home SOC Lab: SIEM, Windows Event Logs, Sysmon & Detection Rules | Planned |
+
+### Practical Development Goals
+- Improve alert triage, investigation and incident report writing.
+- Practise analysing suspicious processes, authentication events and network traffic.
+- Build hands-on experience with SIEM tools, endpoint telemetry and detection rules.
+- Develop a Windows Active Directory lab to simulate attacks and investigate security events.
+- Document investigations and lab projects for a cybersecurity portfolio.
 
 ---
 
