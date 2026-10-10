@@ -3,7 +3,6 @@ title: LetsDefend Phishing Investigation
 parent: SOC Investigations
 nav_order: 2
 ---
-# SOC Investigation Report: Phishing Alert
 
 # SOC Investigation Report: Phishing Alert
 
