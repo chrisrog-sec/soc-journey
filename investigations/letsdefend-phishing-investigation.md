@@ -1,6 +1,6 @@
 ---
 title: LetsDefend Phishing Investigation
-nav_order: 2
+permalink: /letsdefend-phishing-investigation/
 ---
 
 # SOC Investigation Report: Phishing Alert
