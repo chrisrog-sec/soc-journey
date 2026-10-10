@@ -1,6 +1,6 @@
 ---
 layout: default
-title: LetsDefend Phishing Investigation
+title: Lazarus Phishing Campaign
 parent: Investigations
 nav_order: 2
 ---
