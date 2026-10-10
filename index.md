@@ -16,41 +16,38 @@ Background in digital forensics, malware analysis, reverse engineering, and ente
 
 | Section | Description |
 |---------|-------------|
-| [Notes](notes/) | Concepts, detection theory, cheatsheets, and tool references |
-| [Investigations](investigations/) | SOC-style investigations and incident analysis |
-| [Home Lab](lab/) | Detection engineering, logging, and SOC lab development |
+| [Investigations](investigations/) | SOC-style investigations, alert triage, and incident analysis |
+| [Home Lab](lab/) | Detection engineering, logging, SIEM configuration, and SOC lab development |
 
 ---
 
 ## Background
 
-### Analysis
+### Malware Analysis & Reverse Engineering
 Ghidra · Binary Ninja · IDA · FLARE VM
 
-### Forensics
+### Digital Forensics
 Autopsy · Volatility · FTK
 
-### Security
-Burp Suite · Metasploit · Wireshark
+### Security & Network Analysis
+Wireshark · Burp Suite · Metasploit · Nmap
 
-### Networking
+### Enterprise Networking
 OSPF · VLANs · TACACS · ACLs · Spanning Tree
+
+### Security Operations
+Splunk · Elastic/Kibana · SIEM Analysis · Windows Event Logs · Sysmon
 
 ---
 
 ## Current Focus
 
-- Hack The Box CDSA
+- Hack The Box Certified Defensive Security Analyst (CDSA)
 - SIEM and log analysis
+- SOC alert triage and investigation
+- Incident report writing and evidence analysis
 - Detection engineering fundamentals
 - Incident response workflows
-- SOC investigation methodology
-
----
-
-## Recent Notes
-
-- [Cyber Kill Chain](notes/kill-chain)
 
 ---
 
@@ -58,11 +55,19 @@ OSPF · VLANs · TACACS · ACLs · Spanning Tree
 
 | Phase | Focus | Status |
 |-------|-------|--------|
-| 1 | Google Cybersecurity Certificate + TryHackMe SOC Level 1 | In Progress |
+| 1 | TryHackMe SOC Level 1 (SAL1) | Completed |
 | 2 | CompTIA Security+ | Planned |
-| 3 | Home SOC Lab development + LetsDefend investigations | Planned |
-| 4 | BTL1 | Planned |
+| 3 | LetsDefend SOC Investigations | In Progress |
+| 4 | Home SOC Lab: SIEM, Windows Event Logs, Sysmon & Detection Rules | Planned |
 
 ---
 
-*Started May 2026.*
+## Career Goal
+
+Secure my first SOC Analyst role by developing practical investigation skills, strengthening detection capabilities, and documenting hands-on security work.
+
+Long term, expand into penetration testing and offensive security.
+
+---
+
+*Started May 2026 · Updated regularly.*
