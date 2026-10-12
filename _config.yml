@@ -1,6 +1,8 @@
 title: SOC Journey
-description: Cybercrime & IT Security graduate — SOC notes and investigations
+description: A cybersecurity field notebook documenting SOC investigations, practical learning, and detection engineering.
 theme: just-the-docs
-url: https://chrisrog-sec.github.io/soc-journey
+url: https://chrisrog-sec.github.io
 baseurl: /soc-journey
 color_scheme: dark
+search_enabled: true
+heading_anchors: true
