@@ -5,275 +5,141 @@ parent: Investigations
 nav_order: 2
 ---
 
+# SOC Investigation Report: Sudoers File Modification
 
-# SOC Investigation: Sudoers File Modification & Suspicious Account Creation
-
-## 1. Incident Overview
-
-| Field | Details |
-|---|---|
-| Alert Name | SOC324 - Sudoers File Modification Detected |
-| Severity | High |
-| Alert ID | 302 |
-| Hostname | Kristine |
-| Host IP | `172.16.17.129` |
-| Suspicious Source IP | `149.88.25.133` |
-| New Account | `letsdefend1` |
-| Investigation Type | Linux Security Incident |
-| Primary Concern | Potential unauthorized account creation and privilege escalation |
-| Platform | LetsDefend |
-
-## 2. Executive Summary
-
-A high-priority alert was generated after activity involving the Linux sudoers configuration file was detected on the host `Kristine`.
-
-The investigation identified SSH authentication attempts originating from `149.88.25.133`, including successful authentications for the accounts `letsdefend` and `analyst`.
-
-Subsequent endpoint telemetry recorded commands consistent with the creation of a new local account, password assignment, sudo privilege enumeration, and inspection of the sudoers configuration.
-
-The account `letsdefend1` was subsequently observed in the system account database. The inspected sudoers configuration contained a rule granting this account unrestricted command execution through `sudo` without requiring a password.
-
-The observed activity is consistent with possible unauthorized account creation, privilege escalation, and persistence. However, the available evidence does not conclusively establish that the SSH session associated with `analyst` executed every subsequent command, or that the activity was definitively malicious.
-
-## 3. Initial Alert
-
-The investigation began with the following alert:
+## Alert Details
 
 - **Alert:** SOC324 - Sudoers File Modification Detected
-- **Severity:** High
-- **Event ID:** 302
-- **Event timestamp:** `2024-09-20 06:35:12 UTC+03:00`
-- **Affected host:** `Kristine`
+- **Alert ID:** 302
+- **Affected Host:** Kristine
 - **Host IP:** `172.16.17.129`
-- **Observed command:** `sudo cat /etc/sudoers`
+- **Incident Type:** Suspicious Account Creation / Privilege Escalation
+- **Severity:** High
+- **Verdict:** True Positive
 
-### Why the alert matters
+## Summary
 
-The `/etc/sudoers` file defines which users and groups can execute commands with elevated privileges through `sudo`.
+The alert was triggered by activity involving access to the `/etc/sudoers` file on the affected host. The investigation identified a sequence of privileged commands, including the creation of a new user account, inspection of sudo permissions, and execution of `visudo`.
 
-Unauthorized modifications can allow an attacker with an existing foothold to execute commands as root, potentially enabling further compromise and persistence.
+Terminal history showed that the account `letsdefend1` was created using `sudo useradd -m letsdefend1`, followed by a password being assigned to the account. Subsequent commands included `sudo -l`, `sudo cat /etc/sudoers`, and `sudo visudo`.
 
-Reading the file is not inherently malicious. The significance of this event became clearer when correlated with authentication records, terminal history, process execution telemetry, and the observed sudoers configuration.
+The observed sudoers configuration contained entries granting both `analyst` and `letsdefend1` passwordless sudo access to all commands. This configuration provides unrestricted administrative privileges to those accounts.
 
-## 4. Investigation Timeline
+Authentication logs also recorded successful SSH password authentication for the accounts `letsdefend` and `analyst` from the external IP address `149.88.25.133`, alongside failed authentication attempts.
 
-The following timeline summarises the observed activity. Authentication events and terminal-history events use different displayed timestamps; their timezone relationship should be validated before asserting an exact chronological correlation.
+The combination of successful SSH authentication, account creation, and unrestricted passwordless sudo permissions is consistent with potentially malicious account and privilege manipulation. However, the available evidence does not independently establish which authenticated session performed every action or whether the activity was authorised.
 
-| Timestamp | Observed Activity | Investigation Significance |
-|---|---|---|
-| 04:32:30 | SSH accepted password for `letsdefend` from `149.88.25.133` | Successful authentication |
-| 04:33:18 | SSH accepted password for `analyst` from `149.88.25.133` | Additional successful authentication |
-| 06:33:48 | `whoami` | Current identity enumeration |
-| 06:34:24 | `sudo useradd -m letsdefend1` | Local account creation command |
-| 06:34:32 | `sudo passwd letsdefend1` | Password-setting command |
-| 06:34:57 | `sudo -l` | Sudo permission enumeration |
-| 06:35:12 | `sudo cat /etc/sudoers` | Sudoers configuration inspection |
-| 06:35:26 | `sudo visudo` | Sudoers editor launched |
-| 06:36:03 | `sudo cat /etc/sudoers` | Configuration inspected again |
-| 06:36:13 | `groups letsdefend1` | Account group membership checked |
-| 06:36:22 | `getent passwd` | Account enumeration |
+## Investigation Findings
 
-## 5. Evidence Analysis
+### Authentication Analysis
 
-### 5.1 SSH Authentication Activity
+Authentication logs recorded successful SSH password authentication for the accounts `letsdefend` and `analyst` from:
 
-Authentication logs showed activity originating from `149.88.25.133`, targeting the Linux host over SSH.
+`149.88.25.133`
 
-The available records included:
+The logs also contained failed authentication attempts from the same IP address.
 
-- Successful authentication for `letsdefend`.
-- Successful authentication for `analyst`.
-- Failed password attempts involving other usernames.
+These events establish that successful SSH authentication occurred for the recorded accounts. Further investigation would be required to determine whether the successful logins were associated with the suspicious activity observed later on the host.
 
-These events establish successful authentication from the source IP but do not independently establish that the source was unauthorized or identify which authenticated session executed the subsequent commands.
+### Account Creation
 
-**Assessment:** Suspicious authentication activity requiring correlation with endpoint telemetry.
-
-### 5.2 Account Creation
-
-Endpoint telemetry recorded the following command at `06:34:24`:
+Terminal history showed the following command being executed at approximately 06:34:24:
 
 ```bash
 sudo useradd -m letsdefend1
 ```
 
-The associated process details included:
+The `useradd` command creates a new user account, while the `-m` option creates a home directory for the account if required.
 
-| Field | Value |
-|---|---|
-| Process ID | `4253` |
-| Executable | `/usr/bin/sudo` |
-| Parent executable | `/usr/bin/bash` |
-| Target command | `useradd -m letsdefend1` |
-
-The command requests creation of a local user with a home directory.
-
-The account was subsequently observed in the account database:
-
-```text
-letsdefend1:x:1003:1003::/home/letsdefend1:/bin/sh
-```
-
-This entry identifies the account name, UID, primary GID, home directory, and configured login shell.
-
-The presence of the account supports the conclusion that it existed when the account database was inspected. The process record and account entry together are consistent with the observed account-creation activity.
-
-### 5.3 Password Assignment
-
-At `06:34:32`, terminal history recorded:
+A subsequent command assigned a password to the new account:
 
 ```bash
 sudo passwd letsdefend1
 ```
 
-This command attempts to set or change the account's password.
+The account database contained the following entry:
 
-The command history alone does not establish whether the operation completed successfully. Additional authentication or account-management evidence would be required to verify the resulting credential state.
+```text
+letsdefend1:x:1003:1003::/home/letsdefend1:/bin/sh
+```
 
-### 5.4 Sudo Privilege Enumeration
+This confirms that the account existed in the observed account database. The account's creation and subsequent privilege configuration warrant investigation because a newly created account can be used to establish additional access to a system.
 
-At `06:34:57`, the following command was recorded:
+### Sudoers File Inspection and Modification
+
+Terminal history showed the following commands:
 
 ```bash
 sudo -l
-```
-
-This command lists the sudo permissions available to the current user.
-
-Its position in the timeline is consistent with an operator investigating available elevated privileges before inspecting the sudoers configuration.
-
-### 5.5 Sudoers Configuration Inspection
-
-At `06:35:12`, the following command was recorded:
-
-```bash
+sudo cat /etc/sudoers
+sudo visudo
 sudo cat /etc/sudoers
 ```
 
-The command was executed again at `06:36:03`, following the launch of `visudo`.
+The `sudo -l` command lists the sudo permissions available to the current user. The `visudo` utility is used to edit the sudoers configuration while performing syntax validation.
 
-The observed configuration included:
+The observed sudoers configuration contained the following entries:
 
 ```text
+$USER ALL=(ALL) NOPASSWD: ALL
 analyst ALL=(ALL) NOPASSWD: ALL
 letsdefend1 ALL=(ALL) NOPASSWD: ALL
 ```
 
-The rules grant the named accounts permission to execute any command as any user, including root, without a sudo password.
+The entries for `analyst` and `letsdefend1` grant the accounts permission to execute any command as any user without being prompted for a password, subject to the applicable sudo configuration.
 
-The `letsdefend1` entry is particularly significant because the account was created shortly beforehand in the observed terminal history.
+The sequence of commands is consistent with the inspection and configuration of sudo permissions. The observed configuration confirms that the entries were present when the file was read. Establishing exactly when each entry was introduced would require additional evidence, such as file modification timestamps or audit records.
 
-The configuration establishes that these permissions were present when the file was inspected. The available evidence does not independently establish whether the entries were newly added during this incident or were already present.
+### Process Analysis
 
-### 5.6 Sudoers Editor Execution
+Endpoint process events recorded privileged commands associated with the investigation.
 
-At `06:35:26`, endpoint telemetry recorded:
+The event for `sudo useradd -m letsdefend1` recorded `/usr/bin/sudo` as the executable and `/usr/bin/bash` as its parent process.
 
-```bash
-sudo visudo
-```
+A subsequent event recorded `/usr/bin/sudo` executing `visudo`, also with `/usr/bin/bash` as its parent process.
 
-The associated process details included:
+These events support the observation that account-management and sudoers-editing commands were executed. The process information alone does not establish the identity of the interactive user or prove that the commands originated from the SSH sessions identified in the authentication logs.
 
-| Field | Value |
-|---|---|
-| Process ID | `4300` |
-| Executable | `/usr/bin/sudo` |
-| Parent executable | `/usr/bin/bash` |
-| Target command | `visudo` |
+### Privilege Escalation Risk
 
-`visudo` is the standard utility used to edit the sudoers configuration while checking its syntax.
+The observed sudoers entries allow `analyst` and `letsdefend1` to execute commands with unrestricted privileges without a password prompt.
 
-The subsequent configuration output contained the unrestricted sudo rule for `letsdefend1`.
+If these permissions were introduced without authorisation, they could allow an attacker with access to either account to maintain privileged access and perform administrative actions on the host.
 
-This sequence is consistent with a sudoers configuration change. However, the process event alone does not prove that the file was saved or that a particular line was introduced during this session.
+The available evidence supports a significant privilege-escalation risk. However, the evidence reviewed does not independently establish the original access method, the identity of the person responsible, or whether the configuration was part of authorised administration.
 
-### 5.7 Account Enumeration
+## MITRE ATT&CK
 
-The following commands were also observed:
+- **T1098 - Account Manipulation:** Relevant to the creation and configuration of an additional user account.
+- **T1548.003 - Sudo and Sudo Caching:** Relevant to the observed sudo permission configuration and potential abuse of elevated privileges.
 
-```bash
-groups letsdefend1
-getent passwd
-```
+These techniques describe behaviours relevant to the investigation. Their inclusion does not independently establish malicious intent or confirm that an attacker successfully exploited the permissions.
 
-The first queries the account's group memberships. The second queries the system's configured user-account databases.
+## Assessment
 
-In the context of account creation and sudoers inspection, these commands are consistent with verifying account properties and enumerating users.
+The alert is classified as a **True Positive** because the investigation identified a new user account, privileged account-management activity, and a sudoers configuration containing unrestricted passwordless sudo permissions for `analyst` and `letsdefend1`.
 
-Neither command is inherently malicious, but both contribute to the overall activity pattern.
+The combination of these findings represents a potential unauthorised privilege-escalation and access-persistence risk.
 
-## 6. MITRE ATT&CK Mapping
+Although the authentication logs recorded successful SSH logins from `149.88.25.133`, the available evidence does not independently link those sessions to the account creation or sudoers configuration activity.
 
-The following techniques are relevant to the observed activity.
+The authorisation of the changes, the identity of the responsible user, and the full extent of any potential compromise remain undetermined.
 
-| Technique | Name | Relevance |
-|---|---|---|
-| T1110 | Brute Force | Failed authentication attempts were observed. |
-| T1078 | Valid Accounts | Successful authentication using account credentials was recorded. |
-| T1136.001 | Create Account: Local Account | The `useradd` command attempted to create a local account. |
-| T1087.001 | Account Discovery: Local Account | Account enumeration was observed. |
-| T1548.003 | Sudo and Sudo Caching | Relevant to the investigation of potential sudo privilege abuse. |
-| T1059.004 | Unix Shell | Commands were executed through a Unix shell. |
+## Recommended Actions
 
-These mappings are investigative classifications, not proof that an attacker successfully performed every associated technique.
+- Verify whether the creation of `letsdefend1` and the observed sudoers entries were authorised administrative changes.
+- Review SSH authentication logs and session records to establish whether the successful logins from `149.88.25.133` are associated with the activity.
+- Review file metadata and available audit logs to determine when `/etc/sudoers` was modified and which account performed the modification.
+- Remove unauthorised accounts and revoke excessive sudo permissions in accordance with the organisation's incident response procedures.
+- Review the affected host for additional accounts, persistence mechanisms, and other unauthorised configuration changes.
+- Investigate the source IP address and associated authentication activity for additional indicators of compromise.
+- Preserve relevant authentication, process, and file-system evidence for further analysis.
 
-## 7. Findings
+## Conclusion
 
-### Finding 1: Suspicious SSH Authentication
+The investigation identified the creation of a new user account and a sudoers configuration granting unrestricted passwordless sudo access to `analyst` and `letsdefend1`.
 
-Multiple authentication attempts originated from `149.88.25.133`, including successful authentication for two accounts.
+These findings support the True Positive classification and indicate a potentially serious privilege-management issue. Successful SSH authentication from `149.88.25.133` provides additional context that warrants investigation, but a direct relationship between those logins and the subsequent commands has not been established.
 
-**Status:** Observed; authorization and attribution not conclusively established.
+Further investigation is required to determine whether the changes were authorised, identify the account responsible, and establish the full impact on the affected host.
 
-### Finding 2: Local Account Creation
-
-The endpoint recorded the account-creation command, and `letsdefend1` was subsequently present in the account database.
-
-**Status:** Account existence confirmed in the observed account data; command success and exact creation time should be validated against additional records where available.
-
-### Finding 3: Unrestricted Passwordless Sudo Permissions
-
-The inspected configuration contained an unrestricted `NOPASSWD` sudo rule for `letsdefend1`.
-
-**Status:** Configuration observed; whether the rule was newly introduced during the incident remains unverified.
-
-### Finding 4: Potential Privilege Escalation and Persistence
-
-The sequence of account creation, password assignment, sudo permission enumeration, and sudoers inspection is consistent with an attempt to establish a privileged account.
-
-**Status:** Plausible investigative conclusion; malicious intent and the complete execution chain have not been conclusively established.
-
-## 8. Recommended Response Actions
-
-If this activity is confirmed to be unauthorized, the following actions are recommended:
-
-1. **Containment:** Isolate the affected host as appropriate and restrict suspicious remote access.
-2. **Account security:** Review the `analyst`, `letsdefend`, and `letsdefend1` accounts. Disable or remove unauthorized accounts according to incident-response procedures.
-3. **Privilege remediation:** Review `/etc/sudoers` and `/etc/sudoers.d/` for unauthorized rules. Validate the configuration before applying changes.
-4. **Credential security:** Rotate potentially compromised credentials and investigate whether they were reused elsewhere.
-5. **Evidence preservation:** Retain authentication logs, process telemetry, relevant file metadata, and available audit records.
-6. **Scope assessment:** Investigate other systems for activity associated with the source IP, affected accounts, and suspicious account-creation patterns.
-7. **Recovery and monitoring:** Verify the host's integrity and monitor for further unauthorized authentication or privilege changes.
-
-## 9. Investigation Limitations
-
-The following limitations should be considered when interpreting the results:
-
-- The available process events do not conclusively link all commands to the successful SSH session authenticated as `analyst`.
-- The timezone relationship between the authentication logs and terminal history requires validation.
-- The observed sudoers configuration was not compared against a verified pre-incident baseline.
-- The command history does not independently prove successful password assignment or every command's outcome.
-- The available evidence does not establish whether the source IP represents an attacker, an authorized administrator, or another legitimate system.
-
-These limitations do not eliminate the significance of the observed activity. They identify the remaining questions required for a conclusive attribution and impact assessment.
-
-## 10. Final Assessment
-
-The investigation identified a sequence of suspicious authentication, account-management, and privilege-configuration activity on a Linux host.
-
-The most significant finding is the presence of an unrestricted passwordless sudo rule for `letsdefend1`, an account observed in the system account database after an account-creation command was recorded.
-
-The combined evidence is consistent with possible unauthorized account creation, privilege escalation, and persistence. The activity warrants escalation and validation against authentication, process, and file-integrity records before declaring the incident conclusively confirmed.
-
-**Final assessment:** Suspicious activity with potential privileged-account persistence. Further validation is required to confirm unauthorized access, session attribution, and the precise origin of the sudoers configuration.
