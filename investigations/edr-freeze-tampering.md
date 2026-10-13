@@ -3,6 +3,7 @@ layout: default
 title: EDR Tampering Attempt via EDR-Freeze
 parent: Investigations
 nav_order: 3
+permalink: /investigations/edr-freeze-tampering/
 ---
 
 # SOC Investigation Report: EDR Tampering Attempt via EDR-Freeze
