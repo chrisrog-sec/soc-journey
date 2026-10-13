@@ -6,3 +6,4 @@ baseurl: /soc-journey
 color_scheme: dark
 search_enabled: true
 heading_anchors: true
+enable_copy_code_button: true
