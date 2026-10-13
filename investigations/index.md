@@ -13,36 +13,46 @@ permalink: /investigations/
 A collection of SOC-style case studies documenting alert context, investigative pivots, supporting telemetry, conclusions, and recommended next steps. Each write-up aims to separate what the evidence shows from what still needs validation.
 
 <div class="soc-grid">
-  <a class="soc-card" href="{{ '/investigations/letsdefend-phishing-investigation/' | relative_url }}">
+  <article class="soc-card">
     <span class="soc-card-icon">PH</span>
     <h3>Phishing campaign</h3>
     <p>Trace a suspicious email through a malicious link, a downloaded archive, and endpoint activity.</p>
-    <span class="soc-card-link">Open investigation ↗</span>
-  </a>
-  <a class="soc-card" href="{{ '/investigations/sudoers-file-modification/' | relative_url }}">
+    <div class="soc-card-footer">
+      <a href="{{ '/investigations/letsdefend-phishing-investigation/' | relative_url }}">Open investigation <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+  <article class="soc-card">
     <span class="soc-card-icon">PR</span>
     <h3>Sudoers modification</h3>
     <p>Review account creation, authentication activity, and changes to privileged access.</p>
-    <span class="soc-card-link">Open investigation ↗</span>
-  </a>
-  <a class="soc-card" href="{{ '/investigations/edr-freeze-tampering/' | relative_url }}">
+    <div class="soc-card-footer">
+      <a href="{{ '/investigations/sudoers-file-modification/' | relative_url }}">Open investigation <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+  <article class="soc-card">
     <span class="soc-card-icon">EDR</span>
     <h3>EDR tampering attempt</h3>
     <p>Examine suspicious execution and activity consistent with attempts to impair endpoint protection.</p>
-    <span class="soc-card-link">Open investigation ↗</span>
-  </a>
-  <a class="soc-card" href="{{ '/investigations/php-cve-2024-4577/' | relative_url }}">
+    <div class="soc-card-footer">
+      <a href="{{ '/investigations/edr-freeze-tampering/' | relative_url }}">Open investigation <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+  <article class="soc-card">
     <span class="soc-card-icon">CVE</span>
     <h3>Possible PHP injection</h3>
     <p>Assess a suspicious request targeting a PHP CGI vulnerability and distinguish attempt from confirmed impact.</p>
-    <span class="soc-card-link">Open investigation ↗</span>
-  </a>
-  <a class="soc-card" href="{{ '/investigations/winrar-cve-2025-8088/' | relative_url }}">
+    <div class="soc-card-footer">
+      <a href="{{ '/investigations/php-cve-2024-4577/' | relative_url }}">Open investigation <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+  <article class="soc-card">
     <span class="soc-card-icon">IOC</span>
     <h3>WinRAR path traversal</h3>
     <p>Investigate suspicious archive extraction and file creation linked to a vulnerability alert.</p>
-    <span class="soc-card-link">Open investigation ↗</span>
-  </a>
+    <div class="soc-card-footer">
+      <a href="{{ '/investigations/winrar-cve-2025-8088/' | relative_url }}">Open investigation <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
 </div>
 
 <div class="soc-note"><strong>Investigation standard:</strong> conclusions should be proportionate to the evidence. Where telemetry is incomplete or a successful outcome cannot be independently verified, that limitation belongs in the report.</div>
