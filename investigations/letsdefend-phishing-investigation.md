@@ -3,6 +3,7 @@ layout: default
 title: Lazarus Phishing Campaign
 parent: Investigations
 nav_order: 2
+permalink: /investigations/letsdefend-phishing-investigation/
 ---
 
 # SOC Investigation Report: Phishing Alert
