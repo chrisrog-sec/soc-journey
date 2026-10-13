@@ -8,7 +8,7 @@ permalink: /
 <div class="editorial-intro">
 <p class="eyebrow">CYBERSECURITY · BLUE TEAM</p>
 <h1>Learning to investigate.<br><span>Learning to defend.</span></h1>
-<p class="intro-copy">I'm a Cybercrime &amp; IT Security graduate building practical skills in security operations, incident investigation, and detection engineering. This site is my field notebook: the evidence I reviewed, the questions I asked, and the lessons I took away.</p>
+<p class="intro-copy">I'm a Cybercrime & IT Security graduate building practical skills in security operations, incident investigation, and detection engineering. This site is my field notebook: the evidence I reviewed, the questions I asked, and the lessons I took away.</p>
 <div class="intro-links">
 <a class="text-link primary-link" href="{{ '/investigations/' | relative_url }}">Browse investigations <span aria-hidden="true">↗</span></a>
 <a class="text-link" href="{{ '/lab/' | relative_url }}">Explore the home lab <span aria-hidden="true">↗</span></a>
@@ -22,19 +22,19 @@ permalink: /
 <h2>Investigations</h2>
 <p class="section-lede">Evidence-led case studies, from the first alert to a defensible conclusion.</p>
 <div class="article-list">
-<a class="article-row" href="{{ '/investigations/letsdefend-phishing-investigation.html' | relative_url }}">
+<a class="article-row" href="{{ '/investigations/letsdefend-phishing-investigation/' | relative_url }}">
 <span class="article-index">01</span><span class="article-main"><strong>Phishing investigation</strong><small>Email analysis · URL triage · Endpoint activity</small></span><span class="article-arrow" aria-hidden="true">↗</span>
 </a>
-<a class="article-row" href="{{ '/investigations/sudoers-file-modification.html' | relative_url }}">
+<a class="article-row" href="{{ '/investigations/sudoers-file-modification/' | relative_url }}">
 <span class="article-index">02</span><span class="article-main"><strong>Sudoers file modification</strong><small>Linux · Privilege escalation · Authentication logs</small></span><span class="article-arrow" aria-hidden="true">↗</span>
 </a>
-<a class="article-row" href="{{ '/investigations/edr-freeze-tampering.html' | relative_url }}">
+<a class="article-row" href="{{ '/investigations/edr-freeze-tampering/' | relative_url }}">
 <span class="article-index">03</span><span class="article-main"><strong>EDR tampering attempt</strong><small>Endpoint telemetry · Defence evasion</small></span><span class="article-arrow" aria-hidden="true">↗</span>
 </a>
-<a class="article-row" href="{{ '/investigations/php-cve-2024-4577.html' | relative_url }}">
+<a class="article-row" href="{{ '/investigations/php-cve-2024-4577/' | relative_url }}">
 <span class="article-index">04</span><span class="article-main"><strong>PHP CGI vulnerability</strong><small>CVE-2024-4577 · Web logs · Impact validation</small></span><span class="article-arrow" aria-hidden="true">↗</span>
 </a>
-<a class="article-row" href="{{ '/investigations/winrar-cve-2025-8088.html' | relative_url }}">
+<a class="article-row" href="{{ '/investigations/winrar-cve-2025-8088/' | relative_url }}">
 <span class="article-index">05</span><span class="article-main"><strong>WinRAR path traversal</strong><small>Archive analysis · File creation · Indicators</small></span><span class="article-arrow" aria-hidden="true">↗</span>
 </a>
 </div>
