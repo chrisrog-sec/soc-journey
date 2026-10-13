@@ -506,6 +506,10 @@ body {
   font-weight: 600;
 }
 
+.soc-grid .soc-card .anchor-heading {
+  display: none;
+}
+
 .soc-grid .soc-card-footer {
   margin-top: auto;
   padding-top: 1rem;
