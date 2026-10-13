@@ -3,6 +3,7 @@ title: Home Lab
 layout: default
 nav_order: 4
 has_children: true
+has_toc: false
 permalink: /lab/
 ---
 
@@ -15,22 +16,22 @@ A workbench for turning security concepts into repeatable defensive practice. Th
 <div class="soc-grid">
   <div class="soc-card">
     <span class="soc-card-icon">01</span>
-    <h3>Collect telemetry</h3>
+    <h3 class="no_anchor">Collect telemetry</h3>
     <p>Plan Windows Event Log and Sysmon collection so investigations have useful process, network, and authentication context.</p>
   </div>
   <div class="soc-card">
     <span class="soc-card-icon">02</span>
-    <h3>Search &amp; correlate</h3>
+    <h3 class="no_anchor">Search &amp; correlate</h3>
     <p>Practise SIEM searches, connect related events, and turn noisy alerts into a defensible timeline.</p>
   </div>
   <div class="soc-card">
     <span class="soc-card-icon">03</span>
-    <h3>Build detections</h3>
+    <h3 class="no_anchor">Build detections</h3>
     <p>Develop and test detection ideas, document assumptions, and map supported behaviour to MITRE ATT&amp;CK.</p>
   </div>
   <div class="soc-card">
     <span class="soc-card-icon">04</span>
-    <h3>Document outcomes</h3>
+    <h3 class="no_anchor">Document outcomes</h3>
     <p>Record the setup, queries, results, false positives, and the next iteration so each lab produces a reusable lesson.</p>
   </div>
 </div>
