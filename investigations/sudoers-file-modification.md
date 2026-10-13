@@ -3,6 +3,7 @@ layout: default
 title: Sudoers File Modification & Suspicious Account Creation
 parent: Investigations
 nav_order: 2
+permalink: /investigations/sudoers-file-modification/
 ---
 
 # SOC Investigation Report: Sudoers File Modification
